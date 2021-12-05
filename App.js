@@ -69,9 +69,15 @@ export default function App() {
               {
                 taskListItems.map((item, index) => {
                   return (
-                    <Task key={index} title={item.title} isDone={item.isDone} onRemove={async() => {
-                      completeTask(index)
-                    }}/> 
+                    <Task 
+                      key={index} 
+                      title={item.title} 
+                      isDone={item.isDone} 
+                      onRemove={async() => {
+                        completeTask(index)
+                        
+                      }}
+                    /> 
                   );
                 })
               }
