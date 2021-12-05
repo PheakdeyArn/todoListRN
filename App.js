@@ -16,18 +16,32 @@ import Task from './components/Task';
 export default function App() {
 
   // create task state 
-  const [taskItem, setTaskItem] = useState();
+  const [taskItem, setTaskItem] = useState({
+    title: null,
+    isDone: false
+  });
 
   // create task list 
   const [taskListItems, setTaskListItems] = useState([
-    "task 1",
-    "task 2"
+    {
+      title: "task 1",
+      isDone: false,
+    },
+
+   {
+      title: "task 2",
+      isDone: true,
+    },
   ]);
 
   const handleAddTask = () => {
     Keyboard.dismiss();
+    taskItem.isDone = false;
     setTaskListItems([...taskListItems, taskItem])
-    setTaskItem(null);
+    setTaskItem({
+      title: null,
+      isDone: false
+    });
   }
 
   const completeTask = (index) => {
@@ -55,9 +69,9 @@ export default function App() {
               {
                 taskListItems.map((item, index) => {
                   return (
-                    <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                      <Task title={item} /> 
-                    </TouchableOpacity>
+                    <Task key={index} title={item.title} isDone={item.isDone} onRemove={async() => {
+                      completeTask(index)
+                    }}/> 
                   );
                 })
               }
@@ -75,8 +89,11 @@ export default function App() {
           <TextInput 
             style={styles.input} 
             placeholder={'Write a task'} 
-            value={taskItem} 
-            onChangeText={text => setTaskItem(text)} 
+            value={taskItem.title} 
+            onChangeText={text => {
+              setTaskItem({...taskItem, title:text})
+              // setTaskItem(text)
+            }} 
           />
 
           <TouchableOpacity 

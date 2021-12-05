@@ -1,19 +1,32 @@
 import React,  { useState } from "react";
-import {    CheckBox, StyleSheet, Text, View } from 'react-native';
+import { CheckBox, StyleSheet, Text, View } from 'react-native';
+import { Checkbox, Button } from 'react-native-paper';
 
 
 const Task = (props) => {
 
-    const [isSelected, setSelection] = useState(false);
+    // const [isSelected, setSelection] = useState(false);
+    const [checked, setChecked] = useState(props.isDone);
 
 
     return (
-        <View style={styles.item}>
+        <View style={styles.item}>      
         <View style={styles.itemLeft}>
-            <View style={styles.square}></View>
+
+            <Checkbox
+                status={checked ? 'checked' : 'unchecked'}
+                onPress={() => {
+                    setChecked(!checked);
+                }}
+            />
             <Text style={styles.itemText}>{props.title}</Text>
         </View>
-        <View style={styles.circular}></View>
+        {/* <View style={styles.circular}></View> */}
+
+        <View style={styles.btnContainer}>
+            <Button icon="delete" onPress={async() => props.onRemove()}></Button>
+        </View>
+          
         </View>
     );
 }
@@ -47,7 +60,7 @@ const styles = StyleSheet.create ({
       itemText: {
         maxWidth: '80%',
       },
-      
+
       circular: {
         width: 12,
         height: 12,
@@ -55,6 +68,10 @@ const styles = StyleSheet.create ({
         borderWidth: 2,
         borderRadius: 5,
       },
+
+      btnContainer: {
+  
+      }
 });
 
 export default Task;
